@@ -9,12 +9,11 @@ class GameView(arcade.Window):
         super().__init__(WINDOW_WIDTH, WINDOW_HEIGHT, style=self.WINDOW_STYLE_BORDERLESS, resizable=True)
         self.background_sprite_list = arcade.SpriteList()
         self.ui_sprite_list = arcade.SpriteList()
-        self.write_text_on_terminal_list = arcade.SpriteList()
         
     def setup(self):
         self.CRT_background()
         self.overlay_green_tint()
-        self.written_text_on_terminal()
+        self.write_text()
 
     # s a ocupat geamanu, dracu sa l ia
     # resize background photo when window is minimized
@@ -56,16 +55,29 @@ class GameView(arcade.Window):
         self.overlay.position = (self.width/2, self.height/2)
         self.ui_sprite_list.append(self.overlay)
 
-    # just checked how create_text_sprite works, these will be the text lines on the screen
-    def written_text_on_terminal(self):
-        self.write_text = arcade.create_text_sprite("heheha", arcade.color.WHITE, font_size=12)
-        self.write_text_on_terminal_list.append(self.write_text)
+    # Must work here, the written text logic must be inside on_resize, so that it can be seen
+    def write_text(self):
+        self.message = "Ohaio, mina-san!"
+        self.write_command_line = arcade.Text("", self.bg_image.width/2, self.bg_image.height/2, arcade.color.WHITE, font_size=20)
+        self.count_letter = 0
+        arcade.schedule(self.add_letter, 0.05)
+
+    def add_letter(self, delta_time: float):
+        if self.count_letter <= len(self.message):
+            self.write_command_line.text = self.message[:self.count_letter]
+            self.count_letter += 1
+        else:
+            arcade.unschedule(self.add_letter)
+
 
     def on_draw(self):
         self.clear()
         self.background_sprite_list.draw()
         self.ui_sprite_list.draw()
-        self.write_text_on_terminal_list.draw()
+
+        self.write_command_line.draw()
+
+        # self.write_command_line = arcade.draw_text("Bunaziua", 100, 100, arcade.color.White)
 
 if __name__ == "__main__":
     window = GameView()
