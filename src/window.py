@@ -40,6 +40,22 @@ class GameView(arcade.Window):
         self.overlay.height = height
         self.overlay.position = (width/2, height/2)
 
+        self.update_text_position(width, height)
+
+    def update_text_position(self, width, height):
+        bg_image_left_edge = ((width / 2) - (self.bg_image.width / 2))
+        bg_image_top_edge = ((height / 2) + (self.bg_image.height / 2))
+
+        padding_x = 100 * (self.bg_image.width / 1400)
+        padding_y = 120 * (self.bg_image.height / 1000)
+
+        self.write_command_line.x = bg_image_left_edge + padding_x
+        self.write_command_line.y = bg_image_top_edge - padding_y
+
+        self.write_command_line.width = self.bg_image.width - (padding_x * 2)
+
+        self.write_command_line.font_size = 20 * self.bg_image.width / 1400
+
     # CRT screen image used as background
     def CRT_background(self):
         self.bg_image = arcade.Sprite("background.jpg")
@@ -57,8 +73,11 @@ class GameView(arcade.Window):
 
     # Must work here, the written text logic must be inside on_resize, so that it can be seen
     def write_text(self):
-        self.message = "Ohaio, mina-san!"
-        self.write_command_line = arcade.Text("", self.bg_image.width/2, self.bg_image.height/2, arcade.color.WHITE, font_size=20)
+        self.message = "Ohaio, minasan!Ohaio, minasan!Ohaio, minasan!Ohaio, minasan!Ohaio, minasan!Ohaio, minasan!" \
+        "Ohaio, minasan!Ohaio, minasan!Ohaio, minasan!Ohaio, minasan!Ohaio, minasan!Ohaio, minasan!Ohaio, minasan!Ohaio, minasan!Ohaio, minasan!" \
+        "Ohaio, minasan!Ohaio, minasan!Ohaio, minasan!Ohaio, minasan!Ohaio, minasan!Ohaio, minasan!Ohaio, minasan!Ohaio, minasan!Ohaio, minasan!Ohaio, minasan!" \
+        "Ohaio, minasan!Ohaio, minasan!Ohaio, minasan!Ohaio, minasan!Ohaio, minasan!Ohaio, minasan!Ohaio, minasan!Ohaio, minasan!"
+        self.write_command_line = arcade.Text("", 0, 0, arcade.color.WHITE, width=self.bg_image.width, font_size=20, anchor_y="top", multiline=True)
         self.count_letter = 0
         arcade.schedule(self.add_letter, 0.05)
 
@@ -77,12 +96,14 @@ class GameView(arcade.Window):
 
         self.write_command_line.draw()
 
-        # self.write_command_line = arcade.draw_text("Bunaziua", 100, 100, arcade.color.White)
 
-if __name__ == "__main__":
+def main():
     window = GameView()
     window.setup()
     arcade.run()
+
+if __name__ == "__main__":
+    main()
 
         
 
