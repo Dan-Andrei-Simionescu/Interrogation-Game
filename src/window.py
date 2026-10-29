@@ -1,4 +1,5 @@
 import arcade
+import textwrap
 from arcade.gl import geometry
 
 # must change values
@@ -116,7 +117,7 @@ class GameView(arcade.Window):
         self.write_command_line.x = bg_image_left_edge + padding_x
         self.write_command_line.y = bg_image_top_edge - padding_y
 
-        self.write_command_line.width = self.bg_image.width - (padding_x * 2)
+        # self.write_command_line.width = self.bg_image.width - (padding_x * 2)
 
         self.write_command_line.font_size = 20 * self.bg_image.width / 1400
 
@@ -137,12 +138,13 @@ class GameView(arcade.Window):
 
     # Written text on screen logic
     def write_text(self):
-        self.message = " Buna, Cartita si Gabi! Buna, Cartita si Gabi! Buna, Cartita si Gabi! Buna, Cartita si Gabi! Buna, Cartita si Gabi! Buna, Cartita si Gabi! Buna, Cartita si Gabi!" \
+        raw_message = " Buna, Cartita si Gabi! Buna, Cartita si Gabi! Buna, Cartita si Gabi! Buna, Cartita si Gabi! Buna, Cartita si Gabi! Buna, Cartita si Gabi! Buna, Cartita si Gabi!" \
         " Buna, Cartita si Gabi! Buna, Cartita si Gabi! Buna, Cartita si Gabi! Buna, Cartita si Gabi! Buna, Cartita si Gabi! Buna, Cartita si Gabi! Buna, Cartita si Gabi! Buna, Cartita si Gabi!" \
         " Buna, Cartita si Gabi! Buna, Cartita si Gabi! Buna, Cartita si Gabi! Buna, Cartita si Gabi! Buna, Cartita si Gabi! Buna, Cartita si Gabi! Buna, Cartita si Gabi! Buna, Cartita si Gabi!"
+        self.message = textwrap.fill(raw_message, width=80)
         self.write_command_line = arcade.Text("", 0, 0, color=(60, 180, 100), width=self.bg_image.width, font_name="Perfect DOS VGA 437", font_size=20, anchor_y="top", multiline=True)
         self.count_letter = 0
-        arcade.schedule(self.add_letter, 0.05)
+        arcade.schedule(self.add_letter, 0.025)
 
     def add_letter(self, delta_time: float):
         if self.count_letter <= len(self.message):
