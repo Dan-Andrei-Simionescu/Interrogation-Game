@@ -52,9 +52,7 @@ class GameView(arcade.Window):
                 } else {
                     f_color = texture(texture0, pixelated_uv); // Aplicăm textura pixelată
                     
-                    // Opțional: Linii orizontale de scanare (scanlines)
-                    // Le aplicăm peste coordonatele originale (uv) pentru ca liniile în sine 
-                    // să nu fie și ele pixelate urât, ci doar imaginea de sub ele.
+                    // Horizontal lines effect
                     // float scanline = sin(uv.y * 800.0) * 0.04;
                     // f_color.rgb -= scanline;
                 }
