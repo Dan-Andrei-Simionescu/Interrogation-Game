@@ -1,5 +1,4 @@
-def OpenGL_feat(self):
-     # GL Shader
+def OpenGL_feat():
     vertex_shader = """
         #version 330
         in vec2 in_vert;
@@ -11,7 +10,6 @@ def OpenGL_feat(self):
         }
     """
 
-    # GL Shader for curved screen effect
     fragment_shader = """
         #version 330
         uniform sampler2D texture0;
@@ -19,34 +17,34 @@ def OpenGL_feat(self):
         out vec4 f_color;
 
         void main() {
-            // CRT curve effect
+            // Optional: subtle CRT curve only applied to the text layer
             vec2 uv = v_uv * 2.0 - 1.0;
-            float curvature = 0.15; 
+            float curvature = 0.05; 
             uv += uv * dot(uv, uv) * curvature;
             uv = uv * 0.5 + 0.5;
 
-            // Pixelized screen style
-            float pixel_size = 0.001; 
-            
-            // Screen size
-            vec2 resolution = vec2(1400.0, 1000.0); 
-            
-            // aproximate coordonates for rounded like pixels
-            vec2 pixelated_uv = floor(uv * (resolution / pixel_size)) / (resolution / pixel_size);
-
-            // check edges with distorted coords but draw pixelized coords
+            // If outside the curved bounds, draw nothing (transparent)
             if (uv.x < 0.0 || uv.x > 1.0 || uv.y < 0.0 || uv.y > 1.0) {
-                f_color = vec4(0.0, 0.0, 0.0, 1.0); // Margini negre
-            } else {
-                f_color = texture(texture0, pixelated_uv); // Aplicăm textura pixelată
-                
-                // Horizontal lines effect
-                // float scanline = sin(uv.y * 800.0) * 0.04;
-                // f_color.rgb -= scanline;
+                f_color = vec4(0.0); 
+                return;
             }
+
+            // Get the base text pixel
+            vec4 base_color = texture(texture0, uv);
+
+            // Create a glow by sampling nearby pixels
+            float offset = 0.000001;
+            vec4 bloom = texture(texture0, uv + vec2(offset, 0.0)) +
+                         texture(texture0, uv - vec2(offset, 0.0)) +
+                         texture(texture0, uv + vec2(0.0, offset)) +
+                         texture(texture0, uv - vec2(0.0, offset));
+            
+            bloom *= 0.25; // Average the surrounding samples
+
+            // Combine the sharp base text with the soft bloom.
+            // Because the FBO background is transparent (alpha 0), the glow naturally fades out.
+            f_color = base_color + (bloom * 1.2);
         }
     """
 
     return vertex_shader, fragment_shader
-
-    

@@ -10,12 +10,35 @@ class TextManager:
         self.count_letter = 0
 
     def setup(self, bg_width):
-        raw_message = " Buna, Cartita si Gabi! " * 24        
-        self.message = textwrap.fill(raw_message, width=80)
+        self.message = (
+            "  1  [||||||||||||||||||||||||93.1%]   Tasks: 140, 212 thr; 2 running\n"
+            "  2  [||||||||||             34.0%]   Load average: 1.05 1.12 1.15\n"
+            "  3  [|||||||||||||||||      61.4%]   Uptime: 14 days, 03:22:15\n"
+            "  4  [|||||                   8.2%]\n"
+            "  Mem[|||||||||||||||||1.83G/7.76G]\n"
+            "  Swp[|                  21M/2.00G]\n"
+            "\n"
+            "  PID USER      PRI  NI  VIRT   RES   SHR S CPU% MEM%   TIME+  Command\n"
+            " 1354 root       20   0 1342M  141M 82252 S 34.0  1.8 14h31:12 /usr/bin/dockerd\n"
+            " 2791 dasduke    20   0 4814M  312M 14210 R 22.4  4.0  2:14.33 python3 main.py\n"
+            "  983 root       20   0  541M 64320 38142 S  8.2  0.8 10:14.02 /usr/lib/xorg/Xorg\n"
+            " 1412 dasduke    20   0 2145M  210M  4120 S  2.0  2.6  1h12:45 gnome-shell\n"
+            " 3125 dasduke    20   0  812M 43110 11024 S  1.5  0.5  0:00.12 /bin/bash\n"
+            "    1 root       20   0  168M 11200  8100 S  0.0  0.1  0:12.44 /sbin/init\n"
+            "  512 root       20   0  112M  4200  2100 S  0.0  0.0  0:04.10 /sbin/syslogd\n"
+            "   67 dasduke    20   0  812M 43110 11024 S  1.5  0.5  0:00.12 /bin/bash\n"
+            " 2233 other      20   0  812M 43110 11024 S  1.5  0.5  0:00.12 /bin/bash\n"
+            " 8923 dasduke    20   0  812M 43110 11024 S  1.5  0.5  0:00.12 /bin/bash\n"
+            " 1236 dasduke    20   0  812M 43110 11024 S  1.5  0.5  0:00.12 /bin/bash\n"
+            " 2324 dasduke    20   0  812M 43110 11024 S  1.5  0.5  0:00.12 /bin/bash\n"
+            "   11 root       20   0  812M 43110 11024 S  1.5  0.5  0:00.12 /bin/bash\n"
+        )
 
-        self.write_command_line = arcade.Text("", 0, 0, color=(60, 180, 100), width=20000, font_name=config.FONT_NAME, font_size=20, anchor_y="top", multiline=True)
+        # self.message = textwrap.fill(raw_message, width=80)
+
+        self.write_command_line = arcade.Text("", 0, 0, color=(60, 180, 40), width=20000, font_name=config.FONT_NAME, font_size=20, anchor_y="top", multiline=True)
         self.count_letter = 0
-        arcade.schedule(self.add_letter, 0.0025)
+        arcade.schedule(self.add_letter, 0.01)
 
     def add_letter(self, delta_time: float):
         if self.count_letter <= len(self.message):

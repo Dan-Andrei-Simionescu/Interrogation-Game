@@ -15,7 +15,7 @@ class GameView(arcade.Window):
         self.background_manager = BackgroundManager()
         self.text_manager = TextManager()
 
-        vertex_shader, fragment_shader = OpenGL_feat(self)
+        vertex_shader, fragment_shader = OpenGL_feat()
         self.program = self.ctx.program(vertex_shader=vertex_shader, fragment_shader=fragment_shader)
         self.quad_fs = geometry.quad_2d_fs()
         
@@ -49,13 +49,14 @@ class GameView(arcade.Window):
 
     def on_draw(self):
         self.fbo.use()
-        self.fbo.clear(color=arcade.color.BLACK)
-
-        self.background_manager.draw()
+        self.fbo.clear(color=(0, 0, 0, 0))
         self.text_manager.draw()
 
         self.ctx.screen.use()
         self.clear()
 
+        self.background_manager.draw()
+        self.ctx.enable(self.ctx.BLEND)
+        
         self.fbo.color_attachments[0].use(0)
         self.quad_fs.render(self.program)
