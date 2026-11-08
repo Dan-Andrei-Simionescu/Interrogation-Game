@@ -1,0 +1,7 @@
+WINDOW_WIDTH = 800
+WINDOW_HEIGHT = 600
+
+FONT_PATH = "assets/Perfect DOS VGA 437.ttf"
+FONT_NAME = "Perfect DOS VGA 437"
+
+SCREEN_PATH = "assets/CRT_ScreenV2.jpeg"
