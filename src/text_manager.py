@@ -2,7 +2,8 @@ import arcade
 import textwrap
 import config
 
-from text_level.news_txt import newstext
+from text_level.txt_game_logic import populate_list
+
 
 class TextManager:
     def __init__(self):
@@ -38,11 +39,14 @@ class TextManager:
 
         for i in range(3):
             if i == 0:
-                raw_message = newstext()
+                # raw_message = newstext()
+                pass
             elif i == 1:
-                raw_message = dialoguetext()
+                # raw_message = dialoguetext()
+                pass
             else:
-                raw_message = optionstext()
+                # raw_message = optionstext()
+                pass
 
             self.message = "\n".join(
                 textwrap.fill(line, width=80, subsequent_indent="   ")
@@ -51,7 +55,7 @@ class TextManager:
 
             self.write_command_line = arcade.Text("", 0, 0, color=(60, 180, 40), width=20000, font_name=config.FONT_NAME, font_size=20, anchor_y="top", multiline=True)
             self.count_letter = 0
-            arcade.schedule(self.add_letter, 0.01)
+            arcade.schedule(self.add_letter, 0.025)
 
     def add_letter(self, delta_time: float):
         if self.count_letter <= len(self.message):
