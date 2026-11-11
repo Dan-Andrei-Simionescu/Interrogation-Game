@@ -47,6 +47,10 @@ class GameView(arcade.Window):
                 color_attachments=[self.ctx.texture((width, height), components=4)]
             )
 
+    def on_key_press(self, key, modifiers):
+        if key == arcade.key.ENTER:
+            self.text_manager.advance_text()
+
     def on_draw(self):
         self.fbo.use()
         self.fbo.clear(color=(0, 0, 0, 0))
