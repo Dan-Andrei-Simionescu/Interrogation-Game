@@ -9,6 +9,7 @@ class TextManager:
         arcade.load_font(config.FONT_PATH)
         self.write_command_line = None
         self.message = ""
+        self.raw_message = ""
         self.count_letter = 0
         
         self.text_list = None
@@ -28,23 +29,37 @@ class TextManager:
             multiline=True
         )
         
-        self.load_current_text()
+        self.load_current_text(append=False)
 
-    def load_current_text(self):
+    def load_current_text(self, append):
         if self.current_node is None:
-            raw_message = "No more encounters."
+            new_text = "No more encounters."
         else:
-            raw_message = self.current_node.content
+            new_text = self.current_node.content
+
+        if append:
+            self.raw_message += "\n\n\n\n" + new_text
+        else:
+            self.raw_message = new_text
         
         self.message = "\n".join(
             textwrap.fill(line, width=80, subsequent_indent="   ")
-            for line in raw_message.splitlines()
+            for line in self.raw_message.splitlines()
         )
 
-        self.write_command_line.text = ""
-        self.count_letter = 0
+        if not append:
+            self.write_command_line.text = ""
+            self.count_letter = 0
+
         arcade.unschedule(self.add_letter) 
         arcade.schedule(self.add_letter, 0.025)
+
+    def add_letter(self, delta_time: float):
+        if self.count_letter <= len(self.message):
+            self.write_command_line.text = self.message[:self.count_letter]
+            self.count_letter += 1
+        else:
+            arcade.unschedule(self.add_letter)
 
     def advance_text(self):
         """Called by window.py when the user presses Enter."""
@@ -56,15 +71,13 @@ class TextManager:
 
         if self.current_node is not None:
             self.current_node = self.current_node.next
-            
-        self.load_current_text()
 
-    def add_letter(self, delta_time: float):
-        if self.count_letter <= len(self.message):
-            self.write_command_line.text = self.message[:self.count_letter]
-            self.count_letter += 1
-        else:
-            arcade.unschedule(self.add_letter)
+        if self.current_node is not None:
+            if self.current_node.node_type == "OPTIONS":
+                self.load_current_text(append=True)
+            else:
+                self.load_current_text(append=False)
+
 
     def update_position(self, window_width, window_height, bg_width, bg_height):
         if not self.write_command_line:
@@ -75,6 +88,10 @@ class TextManager:
 
         padding_x = 100 * (bg_width / 1400)
         padding_y = 120 * (bg_height / 1000)
+
+        # if self.current_node.node_type == "OPTIONS":
+        #     padding_x = 200 * (bg_width / 1400)
+        #     padding_y = 900 * (bg_height / 1000)
 
         self.write_command_line.x = bg_image_left_edge + padding_x
         self.write_command_line.y = bg_image_top_edge - padding_y
