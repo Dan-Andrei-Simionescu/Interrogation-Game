@@ -19,7 +19,7 @@ def OpenGL_feat():
         void main() {
             // Optional: subtle CRT curve only applied to the text layer
             vec2 uv = v_uv * 2.0 - 1.0;
-            float curvature = 0.05; 
+            float curvature = 0.1; 
             uv += uv * dot(uv, uv) * curvature;
             uv = uv * 0.5 + 0.5;
 

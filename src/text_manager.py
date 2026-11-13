@@ -36,7 +36,7 @@ class TextManager:
 
         self.write_command_line_options = arcade.Text(
             "", 0, 0, 
-            color=(255, 174, 66),
+            color=(255, 120, 50),
             width=20000,
             align="center",
             anchor_x="center",

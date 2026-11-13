@@ -48,7 +48,11 @@ class GameView(arcade.Window):
             )
 
     def on_key_press(self, key, modifiers):
-        if key == arcade.key.ENTER:
+        if key == arcade.key.ENTER or key == arcade.MOUSE_BUTTON_LEFT:
+            self.text_manager.advance_text()
+
+    def on_mouse_release(self, x, y, button, modifiers):
+        if button == arcade.MOUSE_BUTTON_LEFT:
             self.text_manager.advance_text()
 
     def on_draw(self):
