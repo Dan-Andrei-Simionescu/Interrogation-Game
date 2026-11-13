@@ -30,10 +30,12 @@ def populate_list():
     dialogue = dialoguetext()
     options = optionstext()
 
+    centered_options = "\n".join(line.center(5) for line in options.splitlines())
+
     linked_list.append("NEWS", news)
     linked_list.append("DIALOGUE", dialogue[0])
-    linked_list.append("OPTIONS", options)
+    linked_list.append("OPTIONS", centered_options)
     linked_list.append("DIALOGUE", dialogue[1])
-    linked_list.append("OPTIONS", options)
+    linked_list.append("OPTIONS", centered_options)
 
     return linked_list

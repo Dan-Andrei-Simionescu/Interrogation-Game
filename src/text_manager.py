@@ -38,6 +38,8 @@ class TextManager:
             "", 0, 0, 
             color=(255, 174, 66),
             width=20000,
+            align="center",
+            anchor_x="center",
             font_name=config.FONT_NAME, 
             font_size=20, 
             anchor_y="top", 
@@ -132,8 +134,8 @@ class TextManager:
         self.write_command_line.y = bg_image_top_edge - padding_y
         self.write_command_line.font_size = 20 * (bg_width / 1400)
 
-        options_padding_x = 600 * (bg_width / 1400)
-        options_padding_y = 800 * (bg_height / 1000)
+        options_padding_x = 700 * (bg_width / 1400)
+        options_padding_y = 750 * (bg_height / 1000)
         self.write_command_line_options.x = bg_image_left_edge + options_padding_x
         self.write_command_line_options.y = bg_image_top_edge - options_padding_y
         self.write_command_line_options.font_size = 20 * (bg_width / 1400)
